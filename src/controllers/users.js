@@ -87,22 +87,32 @@ const registerUser = async (req, res, next) => {
 
 const logginGoogle = async (req, res, next) => {
   try {
+    console.log("INGRESE AL LOGGIN DE GOOGLE");
     const { credenciales } = req.body;
+    console.log("se obtuvieron las credenciales del body", credenciales);
     if (credenciales) {
       //verificar que el usuario exista como google SUB
+      console.log(
+        "Si hubo credenciales se busca si ya fue registrado por google"
+      );
       const userCheckGoogle = await User.findOne({
         where: {
           sub: credenciales.sub,
         },
       });
       if (userCheckGoogle) {
+        console.log(
+          "si existen los datos de google en la base previamente se busca su CART"
+        );
         const Shoppingcart = await ShoppingCart.findOne({
           attributes: ["cart_id"],
           where: {
             sub: credenciales.sub,
           },
         });
-
+        console.log(
+          "se envia Usuario Ya registrado con googlem y los datos de usuario"
+        );
         return res.send({
           message: "Usuario Ya registrado con google",
           message: "Login succesfully!",
@@ -112,6 +122,9 @@ const logginGoogle = async (req, res, next) => {
           shoppingcartId: Shoppingcart,
         });
       } else {
+        console.log(
+          "si no existian los datos de goole verificamos si existia el mail aunque sea"
+        );
         //verifico que el usuario exista comparando el email con email de gooole
         const userCheckExistingUser = await User.findOne({
           where: {
@@ -119,6 +132,9 @@ const logginGoogle = async (req, res, next) => {
           },
         });
         if (userCheckExistingUser) {
+          console.log(
+            "si existe el mail pero no los datos de google se agregan datos de google"
+          );
           //agrego los datos de GOOGLE al usuario
           userCheckExistingUser.azp = credenciales.azp;
           userCheckExistingUser.aud = credenciales.aud;
@@ -130,7 +146,11 @@ const logginGoogle = async (req, res, next) => {
           userCheckExistingUser.picture = credenciales.picture;
           userCheckExistingUser.sub = credenciales.sub;
           await userCheckExistingUser.save();
+          console.log("se agregaron los datos de google");
         } else {
+          console.log(
+            "si no existe el mail del usuario se crea el usuario con todos los datos de google y usernane = email y name = name de google"
+          );
           //si no existe usuario email, crearlo por completo
           const newUser = await User.create({
             azp: credenciales.azp,
@@ -145,7 +165,9 @@ const logginGoogle = async (req, res, next) => {
             email: credenciales.email,
             username: credenciales.email,
           });
+          console.log("se crea su carrito");
           const cartToAssociate = await ShoppingCart.create();
+          console.log("se asocia su carrito");
           await cartToAssociate.setUser(newUser);
 
           console.log({
@@ -154,7 +176,7 @@ const logginGoogle = async (req, res, next) => {
             email: newUser.email,
             cartId: cartToAssociate.cart_id,
           });
-
+          console.log("se envia mensaje de usaurio creado succesfully");
           res.send({
             message: "User created succesfully!",
             id: newUser.id,
