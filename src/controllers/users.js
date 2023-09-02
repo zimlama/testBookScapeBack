@@ -82,9 +82,12 @@ const registerUser = async (req, res, next) => {
 
 //Login de un usuario ya registrado
 // puede iniciar sesion con username o email y contraseña--------------------------------------------
-const loginUser = async (req, res, next) => {
+
+//crear ruta de loggin por google
+
+const logginGoogle = async (req, res, next) => {
   try {
-    const { username, password, credenciales } = req.body;
+    const { credenciales } = req.body;
     if (credenciales) {
       //verificar que el usuario exista como google SUB
       const userCheckGoogle = await User.findOne({
@@ -161,6 +164,14 @@ const loginUser = async (req, res, next) => {
         }
       }
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+const loginUser = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
     const userCheck = await User.findOne({
       where: {
         [Op.or]: [{ username: username }, { email: username }],
@@ -447,4 +458,5 @@ module.exports = {
   updateUser,
   deleteUser,
   restoreUser,
+  logginGoogle,
 };
