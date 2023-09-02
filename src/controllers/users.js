@@ -89,6 +89,7 @@ const logginGoogle = async (req, res, next) => {
   try {
     console.log("INGRESE AL LOGGIN DE GOOGLE");
     const { credenciales } = req.body;
+    console.log("body", req.body);
     console.log("se obtuvieron las credenciales del body", credenciales);
     if (credenciales) {
       //verificar que el usuario exista como google SUB
