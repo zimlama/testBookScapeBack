@@ -98,7 +98,7 @@ const logginGoogle = async (req, res, next) => {
       );
       const userCheckGoogle = await User.findOne({
         where: {
-          sub: credenciales.sub,
+          email: credenciales.email,
         },
       });
       if (userCheckGoogle) {
@@ -108,7 +108,7 @@ const logginGoogle = async (req, res, next) => {
         const Shoppingcart = await ShoppingCart.findOne({
           attributes: ["cart_id"],
           where: {
-            sub: credenciales.sub,
+            email: credenciales.email,
           },
         });
         console.log(
