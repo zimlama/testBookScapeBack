@@ -101,6 +101,7 @@ const logginGoogle = async (req, res, next) => {
           email: credenciales.email,
         },
       });
+      console.log("userCheckGoogle",userCheckGoogle)
       if (userCheckGoogle) {
         console.log(
           "si existen los datos de google en la base previamente se busca su CART"
