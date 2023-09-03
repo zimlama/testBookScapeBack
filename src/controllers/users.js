@@ -123,7 +123,6 @@ const logginGoogle = async (req, res, next) => {
           username: userCheckGoogle.username,
           shoppingcartId: Shoppingcart,
         });
-        }
       } else {
         console.log(
           "si no existian los datos de goole verificamos si existia el mail aunque sea"
@@ -168,10 +167,10 @@ const logginGoogle = async (req, res, next) => {
             email: credenciales.email,
             username: credenciales.email,
           });
-          console.log("se crea su carrito");
           const cartToAssociate = await ShoppingCart.create();
-          console.log("se asocia su carrito");
+          console.log("se crea su carrito");
           await cartToAssociate.setUser(newUser);
+          console.log("se asocia su carrito");
 
           console.log({
             message: "User created succesfully!",
@@ -180,14 +179,17 @@ const logginGoogle = async (req, res, next) => {
             cartId: cartToAssociate.cart_id,
           });
           console.log("se envia mensaje de usaurio creado succesfully");
-          res.send({
+          return res.send({
             message: "User created succesfully!",
             id: newUser.id,
             email: newUser.email,
             cartId: cartToAssociate.cart_id,
           });
         }
-      }
+      } 
+    } else {
+      return res.send({message: "La api no resibió las credenciales"});
+    }
   } catch (error) {
     next(error);
   }
