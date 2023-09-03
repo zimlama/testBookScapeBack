@@ -111,6 +111,7 @@ const logginGoogle = async (req, res, next) => {
             email: credenciales.email,
           },
         });
+        console.log("usuario ya registrado por gogole, se busco Cart", Shoppingcart)
         console.log(
           "se envia Usuario Ya registrado con googlem y los datos de usuario"
         );
@@ -122,6 +123,7 @@ const logginGoogle = async (req, res, next) => {
           username: userCheckGoogle.username,
           shoppingcartId: Shoppingcart,
         });
+      }
       } else {
         console.log(
           "si no existian los datos de goole verificamos si existia el mail aunque sea"
