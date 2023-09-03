@@ -123,7 +123,7 @@ const logginGoogle = async (req, res, next) => {
           username: userCheckGoogle.username,
           shoppingcartId: Shoppingcart,
         });
-      }
+        }
       } else {
         console.log(
           "si no existian los datos de goole verificamos si existia el mail aunque sea"
@@ -188,7 +188,6 @@ const logginGoogle = async (req, res, next) => {
           });
         }
       }
-    }
   } catch (error) {
     next(error);
   }
