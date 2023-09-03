@@ -21,6 +21,7 @@ const { DB_USER, DB_PASSWORD, DB_HOST, RW_URLdb, RW_USERdb, RW_PORTdb } =
      native: false, // lets Sequelize know we can use pg-native for ~30% more speed
     }
 );
+console.log("URL DB",`postgresql://postgres:${RW_USERdb}@${RW_URLdb}:${RW_PORTdb}/railway`)
 
 const basename = path.basename(__filename);
 
